@@ -1,9 +1,11 @@
 <?php
 
-include 'vendor/autoload.php';
+include './vendor/autoload.php';
 
 use Entrecore\GTMetrixClient\GTMetrixClient;
 use Entrecore\GTMetrixClient\GTMetrixTest;
+
+print("\n==== Start GTMetrix Report ====\n");
 
 // Check for Pantheon environment
 if (!empty($_ENV['PANTHEON_ENVIRONMENT']) && $_ENV['PANTHEON_ENVIRONMENT'] == 'live') {
@@ -64,3 +66,5 @@ if (!empty($_ENV['PANTHEON_ENVIRONMENT']) && $_ENV['PANTHEON_ENVIRONMENT'] == 'l
     'mrkdwn_in' => ['text']
   ])->send('GTMetrix Report: ' . $_ENV['PANTHEON_SITE_NAME']);
 }
+
+print("\n==== End GTMetrix Report ====\n");
