@@ -9,14 +9,14 @@ workflows:
   clear_cache:
     after:
       - description: 'Post to Slack after cache clear'
-        script: private/scripts/slack/slack_notification.php
+        script: scripts/slack/slack_notification.php
         type: webphp
 
   # Clone Database
   clone_database:
     after:
       - description: 'Sanitize the db after each database Clone'
-        script: private/scripts/db_sanitization/db_sanitize.php
+        script: scripts/db_sanitization/db_sanitize.php
         type: webphp
 
   # Multidev Creation
@@ -27,39 +27,41 @@ workflows:
         # environment receives some traffic. So run another script prior to calling
         # new_relic_apdex_t.php.
         description: 'Wake up the site! Simple ping.'
-        script: private/scripts/wakeup/wakeup.php
+        script: scripts/wakeup/wakeup.php
         type: webphp
       - description: 'Set Apdex T values'
-        script: private/scripts/new_relic/new_relic_apdex_t.php
+        script: scripts/new_relic/new_relic_apdex_t.php
         type: webphp
       - description: 'Post to Slack after Multidev creation'
-        script: private/scripts/slack/slack_notification.php
+        script: scripts/slack/slack_notification.php
         type: webphp
 
   # Deploy code to test or live.
   deploy:
     after:
       - description: 'Wake up the site! Simple ping.'
-        script: private/scripts/wakeup/wakeup.php
+        script: scripts/wakeup/wakeup.php
         type: webphp
       - description: 'Log to New Relic'
-        script: private/scripts/new_relic/new_relic_deploy.php
+        script: scripts/new_relic/new_relic_deploy.php
         type: webphp
       - description: 'Post to Slack after each deploy'
-        script: private/scripts/slack/slack_notification.php
+        script: scripts/slack/slack_notification.php
         type: webphp
 
   # New site creation
   deploy_product:
     after:
+      - description: 'Wake up the site! Simple ping.'
+        script: scripts/wakeup/wakeup.php
+        type: webphp
       - description: 'Install site profile'
-        script: private/scripts/drush_site_install/drush_site_install.php
+        script: scripts/drush_site_install/drush_site_install.php
         type: webphp
 
   # Commit code
   sync_code:
     after:
       - description: 'Wake up the site! Simple ping.'
-        script: private/scripts/wakeup/wakeup.php
-        type: webphp
+        script: scripts/wakeup/wakeup.php
         type: webphp
