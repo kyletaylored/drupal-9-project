@@ -48,6 +48,9 @@ workflows:
       - description: 'Post to Slack after each deploy'
         script: private/scripts/slack/slack_notification.php
         type: webphp
+      - description: 'Run GTMetrix Report'
+        script: private/scripts/gtmetrix/gtmetrix.php
+        type: webphp
 
   # New site creation
   deploy_product:
