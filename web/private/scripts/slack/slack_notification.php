@@ -1,7 +1,5 @@
 <?php
 
-var_dump($_POST);
-
 // Important constants :)
 $pantheon_yellow = '#EFD01B';
 
@@ -17,6 +15,7 @@ $defaults = array(
 // Load our hidden credentials.
 // See the README.md for instructions on storing secrets.
 $secrets = _get_secrets(array('slack_url'), $defaults);
+var_dump($secrets);
 
 // Build an array of fields to be rendered with Slack Attachments as a table
 // attachment-style formatting:
