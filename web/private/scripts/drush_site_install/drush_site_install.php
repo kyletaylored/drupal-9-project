@@ -11,12 +11,11 @@ if (isset($_POST['environment'])) {
   }
 }
 
+// Get Label
+$req = pantheon_curl('https://api.live.getpantheon.com/sites/self', NULL, 8443);
+$meta = json_decode($req['body'], true);
+
 // Install from profile.
 echo "Installing default profile...\n";
-passthru('drush site:install demo_umami --account-mail kyle.taylor@pantheon.io --account-name superuser -y');
-echo "Import of configuration complete.\n";
-
-// Clear all cache
-echo "Rebuilding cache.\n";
-passthru('drush cr');
-echo "Rebuilding cache complete.\n";
+passthru("drush site:install demo_umami --site-name {$meta['label']} --account-mail {$_POST['user_email']} --account-name superuser -y");
+echo "Installation complete.\n";
