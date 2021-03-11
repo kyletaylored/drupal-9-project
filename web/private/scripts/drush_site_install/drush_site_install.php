@@ -11,6 +11,8 @@ if (isset($_POST['environment'])) {
   }
 }
 
+var_dump($_POST);
+
 // Install from profile.
 echo "Installing default profile...\n";
 passthru('drush site:install demo_umami --account-mail kyle.taylor@pantheon.io --account-name superuser -y');
