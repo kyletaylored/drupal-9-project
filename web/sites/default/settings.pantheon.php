@@ -15,14 +15,7 @@
 /**
  * Version of Pantheon files.
  *
- * This is a monotonically-increasing sequence number that is
- * incremented whenever a change is made to any Pantheon file.
- * Not changed if Drupal core is updated without any change to
- * any Pantheon file.
- *
- * The Pantheon version is included in the git tag only if a
- * release is made that includes changes to Pantheon files, but
- * not to any Drupal files.
+ * This is a monotonically-increasing sequence number.
  */
 if (!defined("PANTHEON_VERSION")) {
   define("PANTHEON_VERSION", "4");
@@ -37,7 +30,7 @@ if (!defined("PANTHEON_VERSION")) {
 $pantheon_services_file = __DIR__ . '/services.pantheon.preproduction.yml';
 if (
   isset($_ENV['PANTHEON_ENVIRONMENT']) &&
-  (($_ENV['PANTHEON_ENVIRONMENT'] == 'live') || ($_ENV['PANTHEON_ENVIRONMENT'] == 'test'))
+  ( ($_ENV['PANTHEON_ENVIRONMENT'] == 'live') || ($_ENV['PANTHEON_ENVIRONMENT'] == 'test') )
 ) {
   $pantheon_services_file = __DIR__ . '/services.pantheon.production.yml';
 }
@@ -71,9 +64,10 @@ $is_installer_url = (strpos($_SERVER['SCRIPT_NAME'], '/core/install.php') === 0)
  *
  */
 if ($is_installer_url) {
-  $settings['config_sync_directory'] =  'sites/default/files';
-} else {
-  $settings['config_sync_directory'] = 'sites/default/config';
+  $settings['config_sync_directory'] = 'sites/default/files';
+}
+else {
+  $settings['config_sync_directory'] = getenv('DOCROOT') ? '../config' : 'sites/default/config';
 }
 
 
@@ -109,10 +103,11 @@ if (isset($_SERVER['PRESSFLOW_SETTINGS'])) {
   foreach ($pressflow_settings as $key => $value) {
     // One level of depth should be enough for $conf and $database.
     if ($key == 'conf') {
-      foreach ($value as $conf_key => $conf_value) {
+      foreach($value as $conf_key => $conf_value) {
         $conf[$conf_key] = $conf_value;
       }
-    } elseif ($key == 'databases') {
+    }
+    elseif ($key == 'databases') {
       // Protect default configuration but allow the specification of
       // additional databases. Also, allows fun things with 'prefix' if they
       // want to try multisite.
@@ -120,7 +115,8 @@ if (isset($_SERVER['PRESSFLOW_SETTINGS'])) {
         $databases = array();
       }
       $databases = array_replace_recursive($databases, $value);
-    } else {
+    }
+    else {
       $$key = $value;
     }
   }
