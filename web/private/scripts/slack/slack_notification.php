@@ -1,5 +1,7 @@
 <?php
 
+var_dump($_POST);
+
 // Important constants :)
 $pantheon_yellow = '#EFD01B';
 
@@ -120,6 +122,7 @@ switch ($_POST['wf_type']) {
       'short' => 'false'
     );
     $pretext = 'Site created :ship:';
+    $text = "";
     break;
 
   default:
