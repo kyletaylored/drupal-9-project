@@ -1,12 +1,8 @@
 <?php
 
 // Get Slack API key.
-try {
-  $secrets = json_decode(file_get_contents('https://dev-dunder-mifflin-legacy-site.pantheonsite.io/quicksilver.php?name=qs'), 1);
-} catch (Exception $ex) {
-  print_r($ex);
-  die("Could not fetch API keys.");
-}
+$secrets = json_decode(file_get_contents('https://dev-dunder-mifflin-legacy-site.pantheonsite.io/quicksilver.php?name=qs'), 1);
+$slack_url = $secrets['slack_url'];
 
 /**
  * Send a notification to slack
